@@ -23,7 +23,7 @@ model = AiyagariDiscrete(n=1000) #Tweak around with the model inputs
 plot_results(model, "results.png")
 ```
 
-[Sample results output](/figs/results.png)
+![Sample results output](/figs/results.png)
 
 
 ## TODOs
