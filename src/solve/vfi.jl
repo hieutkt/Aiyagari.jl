@@ -1,9 +1,6 @@
 @doc raw"""The Bellman equation"""
-function bellman_value(model::AiyagariDiscrete, v_guess)
+function bellman_value(model::AiyagariDiscrete, v_guess, uₜ)
     @unpack r, w, a̲, β, Π, n, m, a_grid, l_grid = model
-    # First term: consumption utility
-    cₜ = [(1 + r) * aₜ +  w * l - aₜ₊₁ for aₜ in a_grid, l in l_grid, aₜ₊₁ in a_grid]
-    uₜ = LogUtility().(cₜ)
     # Expected value in the next period
     ## dimension for 𝔼v should be ℓ × aₜ₊₁, same as v_guess
     𝔼v = Array{Float64}(undef, n, m, n)
@@ -32,9 +29,13 @@ end
 function value_function_iterate(model::AiyagariDiscrete; max_iter=1e5, tol=1e-7)
     @unpack r, w, a̲, β, Π, a_grid, l_grid, v_initial, l_stationary_dist = model
     i = 1
-    v_fn, error, policy, a_trans_matrix = bellman_value(model, v_initial)
+    # Caching the first term in the bellman equation: consumption utility
+    cₜ = [(1 + r) * aₜ +  w * l - aₜ₊₁ for aₜ in a_grid, l in l_grid, aₜ₊₁ in a_grid]
+    uₜ = LogUtility().(cₜ)
+    # Starts the iteration process
+    v_fn, error, policy, a_trans_matrix = bellman_value(model, v_initial, uₜ)
     while any(error .>= tol) && i <= max_iter
-        v_fn, error, policy, a_trans_matrix = bellman_value(model, v_fn)
+        v_fn, error, policy, a_trans_matrix = bellman_value(model, v_fn, uₜ)
         i += 1
     end
     println("Value-function iteration terminated after "*string(i)*" iterations.")
