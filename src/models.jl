@@ -29,9 +29,9 @@ Base.@kwdef struct AiyagariDiscrete <: EconomicsModel
     w::Float64 = 0.0560                                      #Labor wage
     a̲::Float64 = 0.1                                         #Borrowing constraint (lower -> more constrained)
     β::Float64 = 0.95                                        #Discount rate
-    Π::Matrix{Float64} = [.5 .4 .1;                          #Transition matrix
-                            .2 .7 .1;
-                            .2 .2 .6]
+    Π::Matrix{Float64} = [0.5 0.4 0.1                          #Transition matrix
+                          0.2 0.7 0.1
+                          0.2 0.2 0.6]
     a_max::Float64 = 5.0                                    #Maximum value of a
     n::Integer = 500                                         #Size of grid-search over a
     a_grid::Array{Float64} = vec(range(-a̲, a_max, length=n)) #Asset states

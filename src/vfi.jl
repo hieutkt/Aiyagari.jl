@@ -8,9 +8,7 @@ function bellman_value(model::AiyagariDiscrete, v_guess)
     ## dimension for 𝔼v should be ℓ × aₜ₊₁, same as v_guess
     𝔼v = Array{Float64}(undef, n, m, n)
     for i in 1:n
-        # 𝔼v[:,:,i] = v_guess * Π
         𝔼v[i,:,:] = Π' * v_guess'
-        # 𝔼v[i,:,:] = v_guess'
     end
     # Compute the value function over all posible states
     vₜ = uₜ + β*𝔼v
