@@ -6,6 +6,7 @@ using CairoMakie
 export
     LogUtility,
     AiyagariDiscrete,
+    solve,
     bellman_value,
     value_function_iterate,
     plot_results
@@ -13,7 +14,8 @@ export
 # Write your package code here.
 include("utility.jl")
 include("models.jl")
-include("vfi.jl")
+include("solve.jl")
+include("solve/vfi.jl")
 include("plots.jl")
 
 end

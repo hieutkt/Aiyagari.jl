@@ -5,6 +5,7 @@
 
 abstract type EconomicsModel end
 
+
 @doc raw"""The basic Aiyagari (1994) model of heterogeneous agents in discrete time.
 
 This classic model for examining inequality and wealth distribution considers a world with incomplete markets, where economic agents are credit-constrained and therefore cannot perfectly insure themselves against idiosyncratic income shocks.
@@ -53,6 +54,7 @@ end
 ###############################################################################
 #                                SOLUTION TYPES                               #
 ###############################################################################
+
 
 abstract type ModelSolution end
 

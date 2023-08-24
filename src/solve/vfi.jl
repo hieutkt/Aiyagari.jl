@@ -23,8 +23,6 @@ function bellman_value(model::AiyagariDiscrete, v_guess)
     for idx in optimal_decision[2][:,:]
         a_transition_matrix[idx[1], idx[3], idx[2]] = 1
     end
-    # Optimal consumption policy
-    c_fn = [(1 + r) * aₜ +  w * l for aₜ in a_grid, l in l_grid] .- policy
     # return stuffs
     return v_fn, error, policy, a_transition_matrix
 end
