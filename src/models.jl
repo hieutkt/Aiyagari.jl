@@ -1,4 +1,13 @@
-@doc raw"""The basic Aiyagari model in discrete time
+###############################################################################
+#                                 MODEL TYPES                                 #
+###############################################################################
+
+
+abstract type EconomicsModel end
+
+@doc raw"""The basic Aiyagari (1994) model of heterogeneous agents in discrete time.
+
+This classic model for examining inequality and wealth distribution considers a world with incomplete markets, where economic agents are credit-constrained and therefore cannot perfectly insure themselves against idiosyncratic income shocks.
 
 # Arguments
 - `r::Float64 = 0.0505`: Interest rates
@@ -15,7 +24,7 @@
 - `v_initial::Matrix{Float64} = zeros(n, 3)`: Initial value function
 
 """
-Base.@kwdef struct AiyagariDiscrete
+Base.@kwdef struct AiyagariDiscrete <: EconomicsModel
     r::Float64 = 0.0505                                      #Interest rates
     w::Float64 = 0.0560                                      #Labor wage
     a̲::Float64 = 0.1                                         #Borrowing constraint (lower -> more constrained)
@@ -38,4 +47,23 @@ function Base.show(io::IO, model::AiyagariDiscrete)
     print("Aiyagari (1994) model in discrete time with " *
         string(length(model.l_grid)) * " income states and " *
         string(model.n) * " wealth states.")
+end
+
+
+###############################################################################
+#                                SOLUTION TYPES                               #
+###############################################################################
+
+abstract type ModelSolution end
+
+
+struct AiyagariDiscreteSolution <: ModelSolution
+    value_function::Array{Float64}
+    optimal_policy::Array{Float64}
+    transition_matrix::Array{Float64}
+end
+
+
+function Base.show(io::IO, sol::AiyagariDiscreteSolution)
+    print("The Aiyagari (1994) model in discrete time is solved.")
 end

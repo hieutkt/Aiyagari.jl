@@ -28,7 +28,7 @@ function bellman_value(model::AiyagariDiscrete, v_guess)
     # Optimal consumption policy
     c_fn = [(1 + r) * aₜ +  w * l for aₜ in a_grid, l in l_grid] .- policy
     # return stuffs
-    return v_fn, error, policy, a_transition_matrix, c_fn
+    return v_fn, error, policy, a_transition_matrix
 end
 
 
@@ -36,14 +36,11 @@ end
 function value_function_iterate(model::AiyagariDiscrete; max_iter=1e5, tol=1e-7)
     @unpack r, w, a̲, β, Π, a_grid, l_grid, v_initial, l_stationary_dist = model
     i = 1
-    v_fn, error, policy, a_trans_matrix, c_fn = bellman_value(model, v_initial)
+    v_fn, error, policy, a_trans_matrix = bellman_value(model, v_initial)
     while any(error .>= tol) && i <= max_iter
-        v_fn, error, policy, a_trans_matrix, c_fn = bellman_value(model, v_fn)
+        v_fn, error, policy, a_trans_matrix = bellman_value(model, v_fn)
         i += 1
     end
-    println("Value-function iteration terminated after "*string(i)*" iterations")
-    # The computed stationary distribution of labor
-    a_probs = sum(a_trans_matrix, dims=1)[1,:,:] |> x -> x ./ sum(x)   # Average probability of assets each a' × l states
-    average_capital = sum((a_probs * l_stationary_dist) .* a_grid)
-    return v_fn, policy, average_capital, a_trans_matrix, c_fn
+    println("Value-function iteration terminated after "*string(i)*" iterations.")
+    return AiyagariDiscreteSolution(v_fn, policy, a_trans_matrix)
 end
