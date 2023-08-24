@@ -32,3 +32,10 @@ Base.@kwdef struct AiyagariDiscrete
         adjoint(fill(1/3, 3)' * Π^100)                       #Stationary distribution of labor
     v_initial::Matrix{Float64} = zeros(n, 3)                 #Initial value function
 end
+
+
+function Base.show(io::IO, model::AiyagariDiscrete)
+    print("Aiyagari (1994) model in discrete time with " *
+        string(length(model.l_grid)) * " income states and " *
+        string(model.n) * " wealth states.")
+end
