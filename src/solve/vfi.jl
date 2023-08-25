@@ -2,11 +2,7 @@
 function bellman_value(model::AiyagariDiscrete, v_guess, uₜ)
     @unpack r, w, a̲, β, Π, n, m, a_grid, l_grid = model
     # Expected value in the next period
-    ## dimension for 𝔼v should be ℓ × aₜ₊₁, same as v_guess
-    𝔼v = Array{Float64}(undef, n, m, n)
-    for i in 1:n
-        𝔼v[i,:,:] = Π' * v_guess'
-    end
+    @inbounds  𝔼v = Π' * v_guess' |> v -> reshape(repeat(v, inner=(n,1)), n, m, n)
     # Compute the value function over all posible states
     vₜ = uₜ + β*𝔼v
     # Find the optimal desision for each of the current states
