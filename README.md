@@ -44,7 +44,7 @@ I probably won't get around to do them all (as the fall semester is starting) bu
     + [ ] Markov matrices and operations. Computation of invariant distributions is already there but is in rough stages. Might as well importing from some library if implement it well.
 - Improve performace: 
     + [x] Caching the utility matrix: The first term in the Bellman equation is independent of the value function $v_t$, so we should compute them only once! Benchmark improved from `2.566 s ± 3.405 ms` to `2.002 s ± 39.059 ms`.
-    + [ ] This implementation currently solves the simpliest models (3 income states, 500 wealth grid) in about 2 seconds. There is much room to improve.
+    + [x] After some more optimizations this implementation now solve the simpliest models (3 income states, 500 wealth grid) to `858.676 ms ±  22.632 ms`.
 - Documentations:
     + [ ] Write docs for everything
     + [ ] A documentation site with [Documenter.jl](https://documenter.juliadocs.org/stable/), but only if it is easy enough. This is only a small package after all

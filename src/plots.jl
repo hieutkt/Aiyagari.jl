@@ -3,7 +3,7 @@ function find_invariant_distribution(transition_matrix, Π, n, m)
     error_term = Inf
     a_invariant = ones(n, m) ./ (n * m)
     while error_term >= 1.0e-5
-        a_new = vcat([a_invariant[:,i]' * transition_matrix[:,:,i] for i in 1:3]...)' * Π
+        a_new = vcat([a_invariant[:,i]' * transition_matrix[:,:,i] for i in 1:m]...)' * Π
         error_term = abs.(a_new - a_invariant) |> sum
         a_invariant = a_new
     end
