@@ -1,12 +1,14 @@
 function find_invariant_distribution(transition_matrix, Π, n, m)
     # Simulating the transition
-    error_term = Inf
+    error_term = fill(Inf, n, m)
     a_invariant = ones(n, m) ./ (n * m)
-    while error_term >= 1.0e-5
+    print("Simulating the invariant distribution... ")
+    while any(error_term .>= 1.0e-6)
         a_new = vcat([a_invariant[:,i]' * transition_matrix[:,:,i] for i in 1:m]...)' * Π
-        error_term = abs.(a_new - a_invariant) |> sum
+        error_term = abs.(a_new - a_invariant)
         a_invariant = a_new
     end
+    printstyled("Done!\n", color = :green)
     return a_invariant
 end
 
