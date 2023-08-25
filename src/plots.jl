@@ -11,7 +11,7 @@ function find_invariant_distribution(transition_matrix, Π, n, m)
 end
 
 
-function plot_results(sol::AiyagariDiscreteSolution, model::AiyagariDiscrete, path::String)
+function plot(sol::AiyagariDiscreteSolution, model::AiyagariDiscrete)
     @unpack a̲, β, Π, r, w, n, m, l_grid, a_grid = model
     a_invariant = find_invariant_distribution(sol.transition_matrix, Π, n, m)
     a_change = sol.optimal_policy .- a_grid
@@ -19,8 +19,9 @@ function plot_results(sol::AiyagariDiscreteSolution, model::AiyagariDiscrete, pa
     consumption_fn = [(1 + r) * aₜ +  w * l for aₜ in a_grid, l in l_grid] .- sol.optimal_policy
     # Setup plot object
     f = Figure(resolution = (1500, 400), fontsize=16)
-    # Left: Value function | Right: Optimal policy function
+    # Setting up layouts
     ax1, ax2, ax3, ax4, ax5 = Axis(f[1, 1]), Axis(f[1, 2]), Axis(f[1, 3]), Axis(f[1, 4]), Axis(f[1, 5])
+    # Fill layout
     for i in 1:m
         lines!(ax1, a_grid, sol.value_function[:,i]    , label= "ℓ = " * string(l_grid[i]))
         lines!(ax2, a_grid, sol.optimal_policy[:,i]  , label= "ℓ = " * string(l_grid[i]))
@@ -33,8 +34,8 @@ function plot_results(sol::AiyagariDiscreteSolution, model::AiyagariDiscrete, pa
     ax3.ylabel = "Change in wealth in next period (Δa)" ; ax3.xlabel = "Current wealth (aₜ)"
     ax4.xlabel = "Households wealth (aₜ)"; ax4.ylabel = "Invariant distribution"
     ax5.xlabel = "Households wealth (aₜ)"; ax5.ylabel = "Optimal consumption (cₜ)"
-    f[2, :] = Legend(f, ax2, "Labor states",
+    f[2, :] = Legend(f, ax2, "Labor states (n = " *string(n) * ")",
                      orientation = :horizontal, framevisible = false)
-    # Save to file
-    save(path, f)
+    # Return the plot object
+    return f
 end

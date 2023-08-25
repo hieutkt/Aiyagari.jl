@@ -9,7 +9,7 @@ export
     solve,
     bellman_value,
     value_function_iterate,
-    plot_results
+    plot
 
 # Write your package code here.
 include("utility.jl")
