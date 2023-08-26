@@ -36,8 +36,11 @@ I probably won't get around to do them all (as the fall semester is starting) bu
     + [x] Proper `display()` properties for models objects
     + [x] Create abstract `EconomicsModel` and `ModelSolution` types
     + [x] Solve models by running `solve()` which takes a model and returns a solution
-    + [ ] Drawing graphs with various `plot()` functions which takes a model solution 
+- Module managements
+    + [ ] `Pkg` supports [supports multi-package repositories](https://github.com/JuliaLang/Juleps/issues/8#issuecomment-400829383). It might be useful to have one large repository that contains the core functions that is being used in most modelling workflows, and then having specific components e.g. `AiyagariDiscrete()` be sub-modules that one only loads when needed. I like the idea of having a modular system of economics computational tools. Need to think more about this but look for big projects like [Makie.jl](https://github.com/MakieOrg/Makie.jl) or [FasiAI.jl](https://github.com/FluxML/FastAI.jl) to see how they implement it.
+    + [ ] In such case, we can lazily pre-compile costly components of the package (For example, plotting with `CairoMakie.jl`, optimizations with `JuMP.jl`). [Require.jl](https://github.com/JuliaPackaging/Requires.jl) seems to be suitable for this purpose, but I'm not sure if it is needed.
 - Graphing capabilities
+    + [x] Drawing graphs with a dwim `plot()` function which takes a model solution and return a plot object
     + [ ] Write atomic plotting functions that do only one thing and do it well. Make them composable like with the rest of the [Makie.jl](https://github.com/MakieOrg/Makie.jl) ecosystem
 - Some supporting functionalities 
     + [ ] Discretization using Tauchen’s method.
